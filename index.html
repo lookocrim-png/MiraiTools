@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiraiTools - Next Gen Execution</title>
+    <style>
+        :root {
+            --primary: #ff66a3;
+            --bg: #050505;
+            --surface: #121214;
+            --text: #ffffff;
+            --text-muted: #a1a1aa;
+            --border: #27272a;
+            --x: 50%;
+            --y: 50%;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; scroll-behavior: smooth;}
+        
+        body { 
+            background-color: var(--bg); 
+            color: var(--text); 
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at var(--x) var(--y), rgba(255, 102, 163, 0.1) 0%, transparent 50%);
+            background-attachment: fixed;
+            line-height: 1.6;
+        }
+
+        /* --- NAVIGATION --- */
+        nav { 
+            display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; 
+            background: rgba(5,5,5,0.8); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); 
+        }
+        .logo { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; flex: 1; }
+        .logo span { color: var(--primary); }
+        .nav-links-container { flex: 2; display: flex; justify-content: center; }
+        .nav-links { display: flex; gap: 30px; background: rgba(255,255,255,0.03); padding: 8px 25px; border-radius: 30px; border: 1px solid var(--border); }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; transition: 0.2s; font-weight: 600;}
+        .nav-links a:hover { color: var(--primary); }
+        .btn-group { display: flex; gap: 15px; flex: 1; justify-content: flex-end; align-items: center;}
+        .btn { padding: 8px 20px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; transition: 0.2s; text-decoration: none; font-weight: bold; border: none;}
+        .btn-discord { background: transparent; border: 1px solid var(--border); color: white; }
+        .btn-discord:hover { background: var(--border); border-color: var(--primary); color: var(--primary);}
+        
+        .dropdown { position: relative; display: inline-block; }
+        .btn-download { background: var(--primary); color: #000; box-shadow: 0 0 15px rgba(255, 102, 163, 0.3); }
+        .btn-download:hover { background: #ff85b8; transform: translateY(-2px); box-shadow: 0 0 25px rgba(255, 102, 163, 0.5);}
+        .dropdown-content {
+            display: none; position: absolute; top: 100%; right: 0; background-color: var(--surface); min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid var(--border); border-radius: 8px; z-index: 1; margin-top: 10px; overflow: hidden;
+        }
+        .dropdown-content a { color: var(--text-muted); padding: 12px 16px; text-decoration: none; display: block; font-size: 13px; transition: 0.2s; }
+        .dropdown-content a:hover { background-color: var(--border); color: white; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* --- HERO SECTION --- */
+        .hero { position: relative; text-align: center; padding: 180px 20px 120px; border-bottom: 1px solid var(--border); overflow: hidden; }
+        .hero::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.7), rgba(5,5,5,1)), url('https://wallpapers.com/images/hd/yuno-gasai-4k-anime-girl-mv868j9a652y031t.jpg') no-repeat center center/cover;
+        }
+        .hero h1 { font-size: 72px; font-weight: 900; margin-bottom: 20px; text-shadow: 0 5px 30px rgba(0,0,0,0.9); letter-spacing: -2px; line-height: 1.1;}
+        .hero h1 span { color: var(--primary); background: linear-gradient(45deg, var(--primary), #b966ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-muted); font-size: 20px; max-width: 650px; margin: 0 auto 40px auto; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
+
+        /* --- GLOBAL SECTION STYLES --- */
+        section { padding: 100px 50px; max-width: 1300px; margin: 0 auto; border-bottom: 1px solid rgba(39, 39, 42, 0.3); }
+        h2 { font-size: 42px; margin-bottom: 20px; text-align: center; font-weight: 800; letter-spacing: -1px;}
+        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 60px; font-size: 18px; max-width: 700px; margin-left: auto; margin-right: auto;}
+        .highlight { color: var(--primary); font-weight: bold; }
+
+        /* --- THE STORY SECTION --- */
+        .story-container {
+            background: rgba(18, 18, 20, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 50px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .story-container p { color: var(--text-muted); margin-bottom: 20px; font-size: 17px; }
+        .story-container p:last-child { margin-bottom: 0; }
+
+        /* --- IMAGE SHOWCASE (4 SLOTS) --- */
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .showcase-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .showcase-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 102, 163, 0.15);
+            border-color: rgba(255, 102, 163, 0.3);
+        }
+        .showcase-item img {
+            width: 100%;
+            height: 350px; 
+            object-fit: cover;
+            border-radius: 8px;
+            background: #09090b; 
+        }
+        .showcase-item h3 {
+            margin-top: 15px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        /* --- DEMO VIDEO SECTION --- */
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px;
+            border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.4); background: #000;
+        }
+        .video-container video {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; object-fit: contain;
+        }
+
+        /* --- FOOTER / CONTACT --- */
+        footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 60px 40px 30px;
+            text-align: center;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            text-align: left;
+        }
+        .footer-col h4 { color: white; margin-bottom: 20px; font-size: 18px; }
+        .footer-col p, .footer-col a { color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 10px; font-size: 15px; transition: 0.2s;}
+        .footer-col a:hover { color: var(--primary); }
+        
+        .contact-box {
+            background: rgba(255, 102, 163, 0.05);
+            border: 1px solid rgba(255, 102, 163, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .contact-box a { color: var(--primary); font-weight: bold; margin-bottom: 0;}
+        
+        .credits {
+            color: #52525b;
+            font-size: 14px;
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Mirai<span>Tools</span></div>
+        <div class="nav-links-container">
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#story">Our Story</a>
+                <a href="#showcase">Interface</a>
+                <a href="#demo">Demo</a>
+            </div>
+        </div>
+        <div class="btn-group">
+            <a href="https://discord.gg/nUxSj5MtVd" target="_blank" class="btn btn-discord">Join Discord</a>
+            <div class="dropdown">
+                <button class="btn btn-download">Download App ▼</button>
+                <div class="dropdown-content">
+                    <a href="#">🚀 Download Mirai v2.0 (Latest)</a>
+                    <a href="#">📦 Download Legacy Version</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero" id="home">
+        <h1>Welcome to <span>Mirai</span></h1>
+        <p>The premium, keyless execution environment built by developers, for developers. Say goodbye to linkvertises and crashes. Say hello to the future.</p>
+        <div style="display: flex; gap: 20px; justify-content: center; margin-top: 30px;">
+            <a href="#showcase" class="btn btn-discord" style="padding: 12px 30px; font-size: 16px;">View Interface</a>
+            <a href="#demo" class="btn btn-download" style="padding: 12px 30px; font-size: 16px;">Watch Demo</a>
+        </div>
+    </div>
+
+    <section id="story">
+        <h2>How It All Started</h2>
+        <p class="section-subtitle">The origin of MiraiTools and why we built it.</p>
+        
+        <div class="story-container">
+            <p>It all started in late 2023. Our dev team, consisting of Vbxzz, Rizve, and Yuno, were fed up. We were tired of the constant cycle: downloading a tool, being forced through five different ad-walls, only for the application to crash the second we tried to inject a simple script. The community was settling for garbage, and we knew we could do better.</p>
+            
+            <p>We wanted to build something that felt like a <span class="highlight">professional developer tool</span>, not a sketchy malware client. We completely scrapped the standard WinForms templates everyone else was using and built our UI from the ground up using PyQt6. We focused heavily on workflow—adding features like a dedicated Lua IDE, a live Client Manager, and background process scanning.</p>
+            
+            <p>Fast forward to today, and <strong>MiraiTools</strong> has evolved into a sleek, optimized, and entirely <span class="highlight">keyless</span> experience. We don't believe in holding your workflow hostage behind paywalls or ad-links. We just want to provide the smoothest, most aesthetically pleasing execution environment on the market.</p>
+        </div>
+    </section>
+
+    <section id="showcase">
+        <h2>The Interface</h2>
+        <p class="section-subtitle">A glimpse into the cleanest UI in the game.</p>
+        
+        <div class="showcase-grid">
+            <div class="showcase-item">
+                <img src="dashboard.jpg" alt="Dashboard View">
+                <h3>The Dashboard</h3>
+            </div>
+            
+            <div class="showcase-item">
+                <img src="executer.jpg" alt="Executor View">
+                <h3>Multi-Tab Executor</h3>
+            </div>
+            
+            <div class="showcase-item">
+                <img src="Lua.png" alt="Lua IDE View">
+                <h3>Split-Screen Lua IDE</h3>
+            </div>
+            
+            <div class="showcase-item">
+                <img src="client.jpg" alt="Client Manager View">
+                <h3>Live Client Manager</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="demo">
+        <h2>See It In Action</h2>
+        <p class="section-subtitle">Watch the full showcase of Mirai v2.0.</p>
+        <div class="video-container">
+            <video controls autoplay loop muted>
+                <source src="MiraiTools.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 20px;">Mirai<span>Tools</span></div>
+                <p>The next generation of script execution. Built with PyQt6, designed for speed, and entirely keyless.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="#home">Home</a>
+                <a href="#story">About Us</a>
+                <a href="#">Download Client</a>
+                <a href="https://discord.gg/nUxSj5MtVd">Discord Server</a>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Contact & Support</h4>
+                <p>Having issues or want to report a bug? Reach out to the team directly.</p>
+                <div class="contact-box">
+                    <p style="margin-bottom: 5px;">Email us at:</p>
+                    <a href="mailto:kianholder98@gmail.com">kianholder98@gmail.com</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="credits">
+            <span>&copy; 2024 MiraiTools. All rights reserved.</span>
+            <span>UI: Vbxzz • Backend: Rizve • Aesthetic: Yuno Gasai</span>
+        </div>
+    </footer>
+
+    <script>
+        const body = document.querySelector('body');
+        document.addEventListener('mousemove', (e) => {
+            // Creates the subtle pink glow that follows your mouse
+            body.style.setProperty('--x', e.clientX + 'px');
+            body.style.setProperty('--y', e.clientY + 'px');
+        });
+    </script>
+</body>
+</html>
